@@ -12,10 +12,16 @@ public class EntryUtils {
         return s2;
     }
 
-    static List<String> allMatches(List<String> l, Predicate<String> pred){
+    //static List<String> allMatches(List<String> l, Predicate<String> pred){
+        //l.removeIf(s -> !pred.f(s));
+        //return l;
+   // }
+    static List<T> allMatches(List<T> l, Predicate<T> pred) {
         l.removeIf(s -> !pred.f(s));
         return l;
-    }
+    } // - for this to work the lambda expression, pred, will have to
+    // infer the type of the objects in the list to have access to its
+    //methods - i.e. if List<String> you want access to charAt(), contains()
 
     public static void main(String[] args) {
 
@@ -27,8 +33,10 @@ public class EntryUtils {
         System.out.println(betterEntry("Bonjour", "How are you?", longest));
 
         //Q5
-        System.out.println(allMatches(greetings,(s)-> s.contains("e")));
+        List<String> wordsWithE = (allMatches(greetings,(s)-> s.contains("e")));
+        System.out.println(wordsWithE);
 
-
+        //6. how do you get the lambda to infer the type of the Objects in the list to have access
+        // to that set of methods?
     }
 }
