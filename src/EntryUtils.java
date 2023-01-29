@@ -1,5 +1,3 @@
-import com.sun.jdi.IntegerValue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,7 @@ public class EntryUtils {
         return s2;
     }
 
-    static String betterEntry(String s1, String s2, TwoGenericPredicate f) {
+    static String betterEntry(String s1, String s2, TwoGenericPredicate<String> f) {
         if (f.betterEntry(s1, s2)) return s1;
         return s2;
     }
@@ -25,7 +23,7 @@ public class EntryUtils {
         l.removeIf(s -> !pred.f(s));
         return l;
     }
-    //Q7 static method (with string)
+    //Q7 static method (with String s only) - method refs replace
     static List<String> transformedList(List<String> l, TransformList f){
         l.replaceAll(f::transformer);
         //for (int i = 0; i < l.size(); i++) {
@@ -33,6 +31,13 @@ public class EntryUtils {
     return l;
     }
 
+    //Q8
+    static <T> List<T> transformGenList(List<T> l, GenericTransformList f) {
+        for (int i = 0; i < l.size(); i++) {
+            l.set(i, f.genTransformer(l.get(i)));
+        }
+        return l;
+    }
 
     public static void main(String[] args) {
 
@@ -48,12 +53,12 @@ public class EntryUtils {
         System.out.println(betterEntry("Bonjour", "How are you?", longest));
 
         //Q5
-        System.out.println(allMatches(greetings,(s)-> s.contains("e")));
+        System.out.println(allMatches(greetings,(s)-> s.contains(" ")));
 
         //Q6
-        System.out.println(allMatches2(greetings,(s)-> s.contains("!")));
+        System.out.println(allMatches2(greetings,(s)-> s.contains(" ")));
 
-        System.out.println(allMatches2(nums1, (s)-> s%2 == 0));
+        System.out.println(allMatches2(nums1, (s)-> s%3 == 0));
         //nb didn't work with nums - was this because there is no Collection obj
         // instantiated at nums? This would mean the removeIf method in the static
         // method would have no type context.
@@ -61,7 +66,14 @@ public class EntryUtils {
         //Q7
         List<String> excitingWords = EntryUtils.transformedList(greetings, s -> s + "!");
         System.out.println(excitingWords);
+        List<String> eyeWords = transformedList(greetings, s -> s.replace("i", "eye"));
+        List<String> upperCaseWords = transformedList(greetings, String::toUpperCase);
 
+        //Q8
+        List<String> QuestioningWords = EntryUtils.transformGenList(greetings, s -> s + "?");
+        System.out.println(QuestioningWords);
 
+        List<String> eyeWords = transformGenList(greetings, s -> s.replace("i", "eye"));
+        List<String> upperCaseWords = transformGenList(greetings, String::toUpperCase);
     }
 }
