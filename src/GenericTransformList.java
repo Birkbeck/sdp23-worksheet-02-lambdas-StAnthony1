@@ -1,3 +1,3 @@
-public interface GenericTransformList {
-    Object genTransformer(Object o1);
+public interface GenericTransformList <T> {
+    T genTransformer(T t);
 }

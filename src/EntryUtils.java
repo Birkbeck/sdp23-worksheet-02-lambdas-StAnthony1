@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +35,7 @@ public class EntryUtils {
     //Q8
     static <T> List<T> transformGenList(List<T> l, GenericTransformList f) {
         for (int i = 0; i < l.size(); i++) {
-            l.set(i, f.genTransformer(l.get(i)));
+            l.set(i, (T) f.genTransformer(l.get(i)));
         }
         return l;
     }
@@ -69,11 +70,13 @@ public class EntryUtils {
         List<String> eyeWords = transformedList(greetings, s -> s.replace("i", "eye"));
         List<String> upperCaseWords = transformedList(greetings, String::toUpperCase);
 
+        greetings.add("i");
         //Q8
         List<String> QuestioningWords = EntryUtils.transformGenList(greetings, s -> s + "?");
         System.out.println(QuestioningWords);
-
-        List<String> eyeWords = transformGenList(greetings, s -> s.replace("i", "eye"));
-        List<String> upperCaseWords = transformGenList(greetings, String::toUpperCase);
+        List<String> EyeWords = EntryUtils.transformedList(greetings, s -> s.replace("i", "eye"));
+        List<String> UpperCaseWords = EntryUtils.transformedList(greetings, String::toUpperCase);
+        System.out.println(EyeWords);
+        System.out.println(UpperCaseWords);
     }
 }
