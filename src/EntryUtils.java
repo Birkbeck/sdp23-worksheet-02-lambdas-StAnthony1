@@ -33,7 +33,8 @@ public class EntryUtils {
     }
 
     //Q8
-    static <T> List<T> transformGenList(List<T> l, GenericTransformList f) {
+    static <T> List<T> transformGenList(List<T> l, GenericTransformList<T> f) { //angular brackets after
+        // GenericTransformList to establish that it is the same type as the type T in the static method
         for (int i = 0; i < l.size(); i++) {
             l.set(i, (T) f.genTransformer(l.get(i)));
         }
